@@ -1,3 +1,5 @@
-build
-stubs/out
-mupdf-1.26.11-source/build
+build/
+build-*/
+stubs/out/
+mupdf-source-*/
+mupdf-*-source/
