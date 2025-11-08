@@ -36,6 +36,26 @@ bool IntValidator::Validate(const std::string& value, std::string& errorMsg) con
     }
 }
 
+ChoiceStrValidator::ChoiceStrValidator(std::initializer_list<std::string> choices) : choices_(choices) {}
+
+bool ChoiceStrValidator::Validate(const std::string& value, std::string& errorMsg) const {
+    if (std::find(choices_.begin(), choices_.end(), value) == choices_.end()) {
+        errorMsg = "Value " + value + " is not in allowed choices: " + 
+                  GetChoicesString();
+        return false;
+    }
+    return true;
+}
+
+std::string ChoiceStrValidator::GetChoicesString() const {
+    if (choices_.empty()) return "";
+    std::string result = choices_[0];
+    for (size_t i = 1; i < choices_.size(); ++i) {
+        result += ", " + choices_[i];
+    }
+    return result;
+}
+
 ChoiceIntValidator::ChoiceIntValidator(std::initializer_list<int> choices) : choices_(choices) {}
 
 bool ChoiceIntValidator::Validate(const std::string& value, std::string& errorMsg) const {

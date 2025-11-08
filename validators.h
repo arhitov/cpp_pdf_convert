@@ -19,6 +19,16 @@ private:
     int minVal_, maxVal_;
 };
 
+// Валидатор: строка должна быть из списка допустимых значений
+class ChoiceStrValidator : public ArgumentValidator {
+public:
+    ChoiceStrValidator(std::initializer_list<std::string> choices);
+    bool Validate(const std::string& value, std::string& errorMsg) const override;
+private:
+    std::string GetChoicesString() const;
+    std::vector<std::string> choices_;
+};
+
 // Валидатор: число должно быть из списка допустимых значений
 class ChoiceIntValidator : public ArgumentValidator {
 public:

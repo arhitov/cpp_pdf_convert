@@ -71,16 +71,20 @@ set(SOURCES
     # Convert handler
     handlers/convert_to_img/handler.cpp
     handlers/convert_to_img/rules.cpp
-    # Copy handler
-    handlers/copy/handler.cpp
-    handlers/copy/rules.cpp
+    # Help handler
+    handlers/help/handler.cpp
+    handlers/help/rules.cpp
+    # Test handler
+    handlers/test/handler.cpp
+    handlers/test/rules.cpp
 )
 
 include_directories(
     ${CMAKE_SOURCE_DIR}
     ${MUPDF_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}/handlers/convert_to_img  # Для #include "dto.h"
-    ${CMAKE_SOURCE_DIR}/handlers/copy
+    ${CMAKE_SOURCE_DIR}/handlers/help  # Для #include "dto.h"
+    ${CMAKE_SOURCE_DIR}/handlers/test  # Для #include "dto.h"
 )
 
 add_executable(pdf_convert ${SOURCES})
