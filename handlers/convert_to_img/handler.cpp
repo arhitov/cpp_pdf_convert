@@ -20,16 +20,19 @@ int PdfConvertHandler(const PdfConvertDto& dto) {
 
     fz_pixmap* pix = NULL;
     int result;
+    std::string resultStr;
 
     fz_try(ctx) {
-        fz_page* page = fz_load_page(ctx, doc, dto.pageNumber);
+        fz_page* page = fz_load_page(ctx, doc, dto.pageNumber - 1);
         fz_matrix transform = fz_scale(dto.dpi / 72.0f, dto.dpi / 72.0f);
         pix = fz_new_pixmap_from_page(ctx, page, transform, fz_device_rgb(ctx), 0);
         fz_save_pixmap_as_jpeg(ctx, pix, dto.outputFile.c_str(), 90);
         fz_drop_page(ctx, page);
+        resultStr = "Success!";
         result = EXIT_SUCCESS;
     }
     fz_catch(ctx) {
+        resultStr = "Error: " + std::string(fz_caught_message(ctx));
         result = EXIT_FAILURE;
     }
 
@@ -38,9 +41,9 @@ int PdfConvertHandler(const PdfConvertDto& dto) {
     fz_drop_context(ctx);
 
     if (result == EXIT_SUCCESS) {
-        std::cout << "Success!";
+        std::cout << resultStr;
     } else {
-        std::cerr << "Error!";
+        std::cerr << resultStr;
     }
     
     return result;
